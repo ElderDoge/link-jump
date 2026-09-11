@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101413" />
+    <title>Link Jump</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <span class="brand-mark">LJ</span>
+          <div><p class="eyebrow">MANUAL / LINK QUEUE</p><h1>Link Jump</h1></div>
+        </div>
+        <div class="live-pill"><span class="live-dot"></span><span>在线可用</span></div>
+      </header>
+
+      <section class="workflow-stack">
+        <div class="panel editor-panel">
+          <div class="section-heading"><div><p class="eyebrow">01 / QUEUE INPUT</p><h3>粘贴链接</h3></div><span class="count-badge" id="saved-count">0 条</span></div>
+          <p class="helper">一行一个链接，不限数量。保存后会按顺序自动编号。</p>
+          <textarea id="links-input" spellcheck="false" placeholder="https://example.com/page/001&#10;https://example.com/page/002"></textarea>
+          <div class="editor-footer"><span class="save-state" id="save-state">尚未保存</span><button class="button button-secondary" id="save-links">保存链接</button></div>
+          <p class="error-message" id="input-error" role="alert"></p>
+        </div>
+
+        <section class="hero-card panel">
+          <div class="hero-copy"><p class="eyebrow">02 / CURRENT RUN</p><h2 id="current-label">还没有链接</h2><p class="muted" id="status-label">粘贴链接后保存，再手动打开第 1 条。</p></div>
+          <div class="progress-orbit" aria-label="处理进度"><div class="orbit-ring"><span id="progress-number">0</span><small id="progress-total">/ 0</small></div></div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+        </section>
+
+        <div class="panel control-panel">
+          <div class="section-heading"><div><p class="eyebrow">03 / CONTROL</p><h3>处理控制</h3></div><span class="session-state" id="session-state">未开始</span></div>
+          <fieldset class="open-mode">
+            <legend>打开方式</legend>
+            <label class="mode-option"><input type="radio" name="open-mode" value="current" id="open-mode-current" checked /><span>当前页面</span></label>
+            <label class="mode-option"><input type="radio" name="open-mode" value="new-tab" id="open-mode-new-tab" /><span>新标签页</span></label>
+          </fieldset>
+          <button class="button button-primary button-large" id="start-session">打开当前链接 <span>↗</span></button>
+          <div class="manual-actions">
+            <button class="button button-primary" id="complete-next">本条已完成，打开下一条 <span>↗</span></button>
+            <button class="button button-secondary" id="reopen-current">重新打开当前链接</button>
+          </div>
+          <div class="jump-row"><label for="jump-input">跳到编号</label><input id="jump-input" type="number" min="1" inputmode="numeric" placeholder="如 37" /><button class="button button-secondary" id="jump-session">定位</button></div>
+          <div class="button-row lower-actions"><button class="button button-warning" id="mark-failed">标记本条失败</button><button class="button button-ghost" id="reset-session">重置进度</button></div>
+          <div class="ios-note"><span class="note-icon">i</span><span>页面不会自动跳转。完成目标页面内的操作并返回后，请手动点击“本条已完成，打开下一条”。</span></div>
+        </div>
+      </section>
+
+      <section class="panel queue-panel">
+        <div class="section-heading queue-heading"><div><p class="eyebrow">04 / QUEUE</p><h3>链接队列</h3></div><span class="muted" id="queue-summary">等待配置</span></div>
+        <ol class="queue-list" id="queue-list"></ol>
+        <div class="empty-state" id="empty-state"><span class="empty-symbol">＋</span><p>保存链接后，编号队列会显示在这里。</p></div>
+      </section>
+      <footer class="footer-note">进度只保存在当前浏览器 · 适合在网页和其他 App 之间切换使用</footer>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
