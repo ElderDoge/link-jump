@@ -109,8 +109,12 @@ function render() {
   elements.sessionState.textContent = complete ? '已完成' : state.sessionActive ? '等待确认' : '未开始';
   elements.queueSummary.textContent = total === 0 ? '等待配置' : `${state.failedIndexes.length} 条失败 · ${percent}% 完成`;
 
-  elements.start.disabled = total === 0 || state.sessionActive || complete;
-  elements.completeNext.disabled = total === 0 || !state.sessionActive || !state.openedCurrent || complete;
+  const canStart = total > 0 && !state.sessionActive && !complete;
+  const canCompleteNext = total > 0 && state.sessionActive && state.openedCurrent && !complete;
+  elements.start.disabled = !canStart;
+  elements.start.hidden = !canStart;
+  elements.completeNext.disabled = !canCompleteNext;
+  elements.completeNext.hidden = !canCompleteNext;
   elements.reopenCurrent.disabled = total === 0 || complete;
   elements.failed.disabled = total === 0 || complete;
   elements.completeNext.innerHTML = complete

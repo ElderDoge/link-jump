@@ -43,13 +43,10 @@
           </fieldset>
           -->
           <button class="button button-primary button-large" id="start-session">打开当前链接 <span>↗</span></button>
-          <div class="manual-actions">
-            <button class="button button-primary" id="complete-next">本条已完成，打开下一条 <span>↗</span></button>
-            <button class="button button-secondary" id="reopen-current">重新打开当前链接</button>
-          </div>
+          <button class="button button-primary button-large" id="complete-next">本条已完成，打开下一条 <span>↗</span></button>
+          <button class="button button-secondary button-block" id="reopen-current">重新打开当前链接</button>
           <div class="jump-row"><label for="jump-input">跳到编号</label><input id="jump-input" type="number" min="1" inputmode="numeric" placeholder="如 37" /><button class="button button-secondary" id="jump-session">定位</button></div>
           <div class="button-row lower-actions"><button class="button button-warning" id="mark-failed">标记本条失败</button><button class="button button-ghost" id="reset-session">重置进度</button></div>
-          <div class="ios-note"><span class="note-icon">i</span><span>页面不会自动跳转。完成目标页面内的操作并返回后，请手动点击“本条已完成，打开下一条”。</span></div>
         </div>
       </section>
 
@@ -58,6 +55,7 @@
         <ol class="queue-list" id="queue-list"></ol>
         <div class="empty-state" id="empty-state"><span class="empty-symbol">＋</span><p>保存链接后，编号队列会显示在这里。</p></div>
       </section>
+      <div class="ios-note"><span class="note-icon">i</span><span>页面不会自动跳转。完成目标页面内的操作并返回后，请手动点击“本条已完成，打开下一条”。</span></div>
       <footer class="footer-note">进度只保存在当前浏览器 · 适合在网页和其他 App 之间切换使用</footer>
     </main>
     <script type="module" src="/app.js"></script>
