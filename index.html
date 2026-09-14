@@ -24,23 +24,24 @@
           <div class="section-heading"><div><p class="eyebrow">01 / QUEUE INPUT</p><h3>粘贴链接</h3></div><span class="count-badge" id="saved-count">0 条</span></div>
           <p class="helper">一行一个链接，不限数量。保存后会按顺序自动编号。</p>
           <textarea id="links-input" spellcheck="false" placeholder="https://example.com/page/001&#10;https://example.com/page/002"></textarea>
-          <div class="editor-footer"><span class="save-state" id="save-state">尚未保存</span><button class="button button-secondary" id="save-links">保存链接</button></div>
+          <div class="editor-footer"><span class="save-state" id="save-state">尚未保存</span><div class="editor-actions"><button class="button button-ghost" id="clear-links">清空链接</button><button class="button button-secondary" id="save-links">保存链接</button></div></div>
           <p class="error-message" id="input-error" role="alert"></p>
         </div>
 
-        <section class="hero-card panel">
-          <div class="hero-copy"><p class="eyebrow">02 / CURRENT RUN</p><h2 id="current-label">还没有链接</h2><p class="muted" id="status-label">粘贴链接后保存，再手动打开第 1 条。</p></div>
-          <div class="progress-orbit" aria-label="处理进度"><div class="orbit-ring"><span id="progress-number">0</span><small id="progress-total">/ 0</small></div></div>
+        <div class="panel run-panel">
+          <div class="section-heading"><div><p class="eyebrow">02 / CURRENT RUN</p><h3>处理进度</h3></div><span class="session-state" id="session-state">未开始</span></div>
+          <div class="run-summary">
+            <div class="hero-copy"><h2 id="current-label">还没有链接</h2><p class="muted" id="status-label">粘贴链接后保存，再手动打开第 1 条。</p></div>
+            <div class="progress-orbit" aria-label="处理进度"><div class="orbit-ring"><span id="progress-number">0</span><small id="progress-total">/ 0</small></div></div>
+          </div>
           <div class="progress-track"><span id="progress-bar"></span></div>
-        </section>
-
-        <div class="panel control-panel">
-          <div class="section-heading"><div><p class="eyebrow">03 / CONTROL</p><h3>处理控制</h3></div><span class="session-state" id="session-state">未开始</span></div>
+          <!-- 打开方式（已停用，主按钮固定从当前页面打开）
           <fieldset class="open-mode">
             <legend>打开方式</legend>
             <label class="mode-option"><input type="radio" name="open-mode" value="current" id="open-mode-current" checked /><span>当前页面</span></label>
             <label class="mode-option"><input type="radio" name="open-mode" value="new-tab" id="open-mode-new-tab" /><span>新标签页</span></label>
           </fieldset>
+          -->
           <button class="button button-primary button-large" id="start-session">打开当前链接 <span>↗</span></button>
           <div class="manual-actions">
             <button class="button button-primary" id="complete-next">本条已完成，打开下一条 <span>↗</span></button>
@@ -53,7 +54,7 @@
       </section>
 
       <section class="panel queue-panel">
-        <div class="section-heading queue-heading"><div><p class="eyebrow">04 / QUEUE</p><h3>链接队列</h3></div><span class="muted" id="queue-summary">等待配置</span></div>
+        <div class="section-heading queue-heading"><div><p class="eyebrow">03 / QUEUE</p><h3>链接队列</h3></div><span class="muted" id="queue-summary">等待配置</span></div>
         <ol class="queue-list" id="queue-list"></ol>
         <div class="empty-state" id="empty-state"><span class="empty-symbol">＋</span><p>保存链接后，编号队列会显示在这里。</p></div>
       </section>

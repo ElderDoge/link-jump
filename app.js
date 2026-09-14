@@ -3,6 +3,7 @@ const STORAGE_KEY = 'link-jump-v1';
 const elements = {
   input: document.querySelector('#links-input'),
   saveLinks: document.querySelector('#save-links'),
+  clearLinks: document.querySelector('#clear-links'),
   saveState: document.querySelector('#save-state'),
   inputError: document.querySelector('#input-error'),
   currentLabel: document.querySelector('#current-label'),
@@ -23,8 +24,9 @@ const elements = {
   jumpInput: document.querySelector('#jump-input'),
   jump: document.querySelector('#jump-session'),
   failed: document.querySelector('#mark-failed'),
-  openModeCurrent: document.querySelector('#open-mode-current'),
-  openModeNewTab: document.querySelector('#open-mode-new-tab'),
+  // 打开方式（已停用）
+  // openModeCurrent: document.querySelector('#open-mode-current'),
+  // openModeNewTab: document.querySelector('#open-mode-new-tab'),
 };
 
 let state = {
@@ -46,15 +48,16 @@ function loadState() {
         sessionActive: saved.sessionActive === true,
         openedCurrent: saved.openedCurrent === true,
         failedIndexes: Array.isArray(saved.failedIndexes) ? saved.failedIndexes.filter(Number.isInteger) : [],
-        openMode: saved.openMode === 'new-tab' ? 'new-tab' : 'current',
+        openMode: 'current',
       };
     }
   } catch {
     localStorage.removeItem(STORAGE_KEY);
   }
   elements.input.value = state.links.join('\n');
-  elements.openModeCurrent.checked = state.openMode === 'current';
-  elements.openModeNewTab.checked = state.openMode === 'new-tab';
+  // 打开方式（已停用）：始终从当前页面打开
+  // elements.openModeCurrent.checked = state.openMode === 'current';
+  // elements.openModeNewTab.checked = state.openMode === 'new-tab';
 }
 
 function persist() {
@@ -143,6 +146,16 @@ function saveLinks() {
   render();
 }
 
+function clearLinks() {
+  elements.input.value = '';
+  elements.inputError.textContent = '';
+  state = { links: [], currentIndex: 0, sessionActive: false, openedCurrent: false, failedIndexes: [], openMode: 'current' };
+  localStorage.removeItem(STORAGE_KEY);
+  elements.saveState.textContent = '已清空';
+  setStatus('粘贴链接后保存，再手动打开第 1 条。');
+  render();
+}
+
 function openCurrentLink() {
   if (!state.links.length || currentIsComplete()) return;
   const link = state.links[state.currentIndex];
@@ -152,25 +165,27 @@ function openCurrentLink() {
   setStatus(`已打开第 ${state.currentIndex + 1} 条。返回后请手动确认完成或重新打开。`);
   render();
 
-  if (state.openMode === 'new-tab') {
-    const openedWindow = window.open(link, 'link-jump-target');
-    if (!openedWindow) {
-      state.openedCurrent = false;
-      persist();
-      setStatus('新标签页被 Safari 拦截，请允许弹窗后重新打开当前条。');
-      render();
-    }
-    return;
-  }
+  // 打开方式（已停用）：始终从当前页面打开
+  // if (state.openMode === 'new-tab') {
+  //   const openedWindow = window.open(link, 'link-jump-target');
+  //   if (!openedWindow) {
+  //     state.openedCurrent = false;
+  //     persist();
+  //     setStatus('新标签页被 Safari 拦截，请允许弹窗后重新打开当前条。');
+  //     render();
+  //   }
+  //   return;
+  // }
   window.location.href = link;
 }
 
-function changeOpenMode(mode) {
-  state.openMode = mode === 'new-tab' ? 'new-tab' : 'current';
-  persist();
-  setStatus(state.openMode === 'new-tab' ? '已切换为新标签页打开。' : '已切换为当前页面打开。');
-  render();
-}
+// 打开方式（已停用）
+// function changeOpenMode(mode) {
+//   state.openMode = mode === 'new-tab' ? 'new-tab' : 'current';
+//   persist();
+//   setStatus(state.openMode === 'new-tab' ? '已切换为新标签页打开。' : '已切换为当前页面打开。');
+//   render();
+// }
 
 function startSession() {
   if (!state.links.length || currentIsComplete()) return;
@@ -231,14 +246,16 @@ function markFailed() {
 }
 
 elements.saveLinks.addEventListener('click', saveLinks);
+elements.clearLinks.addEventListener('click', clearLinks);
 elements.start.addEventListener('click', startSession);
 elements.completeNext.addEventListener('click', completeAndOpenNext);
 elements.reopenCurrent.addEventListener('click', reopenCurrent);
 elements.reset.addEventListener('click', resetSession);
 elements.jump.addEventListener('click', jumpTo);
 elements.failed.addEventListener('click', markFailed);
-elements.openModeCurrent.addEventListener('change', () => changeOpenMode('current'));
-elements.openModeNewTab.addEventListener('change', () => changeOpenMode('new-tab'));
+// 打开方式（已停用）
+// elements.openModeCurrent.addEventListener('change', () => changeOpenMode('current'));
+// elements.openModeNewTab.addEventListener('change', () => changeOpenMode('new-tab'));
 window.addEventListener('pageshow', render);
 elements.input.addEventListener('input', () => { elements.saveState.textContent = '有未保存修改'; });
 

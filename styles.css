@@ -42,9 +42,13 @@ h3 { font-size: 17px; letter-spacing: -.04em; }
 .live-pill, .session-state, .count-badge { border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; color: var(--muted); font: 500 10px 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; }
 .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(212,243,107,.1); margin-right: 7px; }
 .panel { border: 1px solid var(--line); background: linear-gradient(140deg, rgba(30, 43, 38, .94), var(--panel)); box-shadow: var(--shadow); border-radius: 18px; }
-.hero-card { padding: clamp(22px, 4vw, 40px); display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; position: relative; overflow: hidden; }
-.hero-card::after { content: ''; position: absolute; width: 260px; height: 260px; right: 8%; top: -120px; border: 1px solid rgba(212,243,107,.16); border-radius: 50%; box-shadow: 0 0 0 22px rgba(212,243,107,.04), 0 0 0 44px rgba(212,243,107,.03); pointer-events: none; }
-.hero-copy .muted { margin-top: 12px; font-size: 13px; }
+.run-panel { padding: 22px; position: relative; overflow: hidden; }
+.run-panel::after { content: ''; position: absolute; width: 260px; height: 260px; right: 8%; top: -120px; border: 1px solid rgba(212,243,107,.16); border-radius: 50%; box-shadow: 0 0 0 22px rgba(212,243,107,.04), 0 0 0 44px rgba(212,243,107,.03); pointer-events: none; }
+.run-panel .section-heading { margin-bottom: 10px; position: relative; z-index: 1; }
+.run-summary { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; position: relative; z-index: 1; }
+.hero-copy .muted { margin-top: 8px; font-size: 13px; }
+.run-panel .progress-track { margin-top: 12px; position: relative; z-index: 1; }
+.run-panel .button-large { margin-top: 12px; }
 .progress-orbit { position: relative; z-index: 1; }
 .orbit-ring { display: flex; align-items: baseline; justify-content: center; width: 124px; height: 124px; padding-top: 42px; border-radius: 50%; background: conic-gradient(var(--accent) 0deg, rgba(212,243,107,.12) 0deg); box-shadow: inset 0 0 0 9px rgba(5, 9, 8, .45); color: var(--accent); }
 .orbit-ring span { font-size: 36px; font-weight: 800; letter-spacing: -.08em; }
@@ -54,7 +58,7 @@ h3 { font-size: 17px; letter-spacing: -.04em; }
 .progress-track { grid-column: 1 / -1; height: 5px; background: rgba(255,255,255,.08); border-radius: 99px; overflow: hidden; }
 .progress-track span { display: block; width: 0%; height: 100%; background: var(--accent); border-radius: inherit; transition: width .35s ease; }
 .workflow-stack { display: grid; gap: 18px; }
-.editor-panel, .control-panel, .queue-panel { padding: 22px; }
+.editor-panel, .queue-panel { padding: 22px; }
 .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .section-heading h3 { margin-top: 5px; }
 .helper { font-size: 12px; line-height: 1.6; margin-bottom: 13px; }
@@ -62,6 +66,7 @@ textarea, input { color: var(--text); font: 13px 'DM Mono', monospace; border: 1
 textarea { width: 100%; min-height: 170px; padding: 14px; resize: vertical; line-height: 1.8; }
 textarea:focus, input:focus { border-color: rgba(212,243,107,.7); box-shadow: 0 0 0 3px rgba(212,243,107,.12); }
 .editor-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+.editor-actions { display: flex; gap: 8px; flex: 0 0 auto; }
 .save-state { font: 11px 'DM Mono', monospace; }
 .button { border: 1px solid transparent; border-radius: 10px; padding: 10px 13px; color: var(--text); font: 700 12px 'Manrope', sans-serif; cursor: pointer; transition: transform .18s, border-color .18s, background .18s, opacity .18s; -webkit-tap-highlight-color: transparent; }
 .button:active { transform: scale(.97); }
@@ -72,17 +77,19 @@ textarea:focus, input:focus { border-color: rgba(212,243,107,.7); box-shadow: 0 
 .button-secondary:hover { border-color: rgba(212,243,107,.45); }
 .button-ghost { background: transparent; color: var(--muted); border-color: var(--line); }
 .button-warning { color: var(--warning); background: rgba(255,200,120,.07); border-color: rgba(255,200,120,.28); }
-.button-large { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 16px; font-size: 14px; }
+.button-large { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 60px; padding: 15px 18px; font-size: 15px; }
 .button-row { display: flex; gap: 8px; margin-top: 10px; }
 .button-row .button { flex: 1; }
 .jump-row { display: grid; grid-template-columns: 1fr 82px 62px; align-items: center; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
 .jump-row label { color: var(--muted); font-size: 12px; }
 .jump-row input { width: 100%; padding: 10px; }
+/* 打开方式（已停用）
 .open-mode { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin: 0 0 12px; padding: 0; border: 0; }
 .open-mode legend { grid-column: 1 / -1; width: 100%; margin-bottom: 1px; color: var(--muted); font-size: 11px; }
 .mode-option { display: flex; align-items: center; gap: 7px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: 11px; cursor: pointer; transition: border-color .18s, background .18s, color .18s; }
 .mode-option:has(input:checked) { border-color: rgba(212,243,107,.62); background: rgba(212,243,107,.09); color: var(--accent); }
 .mode-option input { position: absolute; opacity: 0; pointer-events: none; }
+*/
 .manual-actions { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 8px; margin-top: 10px; }
 .manual-actions .button { min-height: 44px; }
 .lower-actions { margin-top: 14px; }
@@ -109,12 +116,13 @@ textarea:focus, input:focus { border-color: rgba(212,243,107,.7); box-shadow: 0 
   .shell { width: min(100% - 22px, 560px); padding-top: 18px; }
   .topbar { margin-bottom: 18px; }
   .live-pill { padding: 6px 8px; font-size: 9px; }
-  .hero-card { grid-template-columns: 1fr auto; padding: 20px 18px; gap: 13px; }
+  .run-panel { padding: 17px; }
+  .run-summary { gap: 12px; }
   h2 { font-size: 30px; }
   .orbit-ring { width: 94px; height: 94px; padding-top: 32px; }
   .orbit-ring span { font-size: 28px; }
   .workflow-stack { gap: 12px; }
-  .editor-panel, .control-panel, .queue-panel { padding: 17px; }
+  .editor-panel, .queue-panel { padding: 17px; }
   textarea { min-height: 145px; }
   .queue-list { grid-template-columns: 1fr; max-height: 360px; }
   .jump-row { grid-template-columns: 1fr 78px 62px; }
